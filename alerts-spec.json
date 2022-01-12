@@ -1,0 +1,43 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Weather Alerts",
+        "version": "1.0.0",
+        "description": "Get state-level weather alerts"
+    },
+    "servers": [
+        {
+            "url": "https://api.weather.gov",
+            "description": "NOAA weather API"
+        }
+    ],
+    "paths": {
+        "/alerts/active": {
+            "servers": [
+                {
+                    "url": "https://api.weather.gov/",
+                    "description": "NOAA weather API"
+                }
+            ],
+            "get": {
+                "parameters": [
+                    {
+                        "name": "area",
+                        "description": "State abbreviation to retrieve alerts for",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Get current alerts"
+            }
+        }
+    }
+}
