@@ -13,12 +13,6 @@
     ],
     "paths": {
         "/alerts/active": {
-            "servers": [
-                {
-                    "url": "https://api.weather.gov/",
-                    "description": "NOAA weather API"
-                }
-            ],
             "get": {
                 "parameters": [
                     {
