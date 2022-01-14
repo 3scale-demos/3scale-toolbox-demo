@@ -46,23 +46,49 @@ $ toolbox ls -al
 
 # Demonstrations
 
-## Import complete service
+## 1. Import complete service
 
 The import command will create a new complete service based on the OpenAPI Spec json file that is stored under version control: [alerts-spec.json](alerts-spec.json)
 
 ~~~
-$ toolbox 3scale import openapi -d $DEST alerts-spec.json --default-credentials-userkey=dummykey -k
+$ toolbox 3scale import openapi -d $DEST alerts-spec.json -t weather-alerts --default-credentials-userkey=dummykey -k
 ~~~
-The output provides the service id, which will be needed to manipulate the service later.
+the `-t` flag specifies the internal system name, so the title field can be used as the 'friendly name' of the service. The output provides the service id and echos the service system name which will be needed to manipulate the service later.
 ~~~
-Created service id: 4, name: Weather Alerts
+Created service id: 5, name: weather-alerts
 Service proxy updated
 destroying all mapping rules
 Created GET /alerts/active$ endpoint
+Created GET /alerts/active/area/{state}$ endpoint
 Service policies updated
 ~~~
 
 If the API (under version control) is ever updated, this same command will recreate the service with the new definitions provided the name of the API in the spec file has not changed.
 
+## 2. Create application for service
+~~~
+$ toolbox 3scale application-plan apply $DEST weather-alerts weather-plan -n "Weather Alerts Plan" --default -k
+~~~	
+
+## 3. Creaate the application
+~~~
+$ toolbox 3scale application apply $DEST 1234567890 --account=john --name="Weather Alerts Application" --description="Created from the CLI" --plan=weather-plan --service=weather-alerts -k
+~~~
+
+The user `john` is the userid of the default user created in a fresh install. The user key to access the API is `1234567890`.
+
+## 4. Promote to production
+
+~~~
+$ toolbox 3scale proxy-config promote $DEST weather-alerts -k
+~~~
+
+# Other operations
+
 ## list methods
 Importing from an OAS file will automatically create the defined methods and mapping rules. It is possible to view and manipulate them.
+~~~
+$ toolbox 3scale method list $DEST weather-alerts -k
+ID	FRIENDLY_NAME	SYSTEM_NAME	DESCRIPTION
+18	AlertsByState	alertsbystate	Returns a list of alerts based on state.
+~~~
