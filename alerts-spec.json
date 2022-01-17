@@ -8,19 +8,32 @@
     "servers": [
         {
             "url": "https://api.weather.gov",
-            "description": "NOAA weather API server"
+            "description": "NOAA weather API server",
+            "variables": {
+                "port": {
+                    "default": "443"
+                }
+            }
         }
     ],
     "paths": {
         "/alerts/active": {
             "get": {
                 "description": "Returns a list of alerts based on state as an argument.",
-                "summary": "Get current state alerts",
-                "operationId": "AlertsByState",
+                "operationId": "ActiveAlertsByArugment",
                 "parameters": [
                     {
                         "name": "area",
                         "description": "State abbreviation to retrieve alerts for",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "name": "user_key",
+                        "description": "Authentication key",
                         "schema": {
                             "type": "string"
                         },
@@ -38,8 +51,7 @@
         "/alerts/active/area/{state}": {
             "get": {
                 "description": "Returns a list of alerts based on state as a url.",
-                "summary": "Get current state alerts",
-                "operationId": "AlertsByState",
+                "operationId": "ActiveAlertsByURL",
                 "parameters": [
                     {
                         "name": "state",
@@ -49,7 +61,17 @@
                         },
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "name": "user_key",
+                        "description": "Authentication key",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
                     }
+
                 ],
                 "responses": {
                     "200": {
