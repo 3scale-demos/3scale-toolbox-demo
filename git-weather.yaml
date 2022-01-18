@@ -1,0 +1,106 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: capabilities.3scale.net/v1beta1
+  kind: Product
+  metadata:
+    annotations:
+      3scale_toolbox_created_at: '2022-01-17T22:06:16Z'
+      3scale_toolbox_version: 0.19.3
+    name: git-weather-alerts
+  spec:
+    name: Git-controlled Weather Alerts API
+    systemName: git-weather-alerts
+    description: Get state-level weather alerts from Git-controlled Product
+    mappingRules:
+    - httpMethod: GET
+      pattern: "/alerts/active$"
+      metricMethodRef: activealertsbyarugment
+      increment: 1
+      last: false
+    - httpMethod: GET
+      pattern: "/alerts/active/area/{state}$"
+      metricMethodRef: activealertsbyurl
+      increment: 1
+      last: false
+    metrics:
+      hits:
+        friendlyName: Hits
+        unit: hit
+        description: Number of API hits
+    methods:
+      activealertsbyarugment:
+        friendlyName: ActiveAlertsByArugment
+        description: Returns a list of alerts based on state as an argument.
+      activealertsbyurl:
+        friendlyName: ActiveAlertsByURL
+        description: Returns a list of alerts based on state as a url.
+    policies:
+    - name: apicast
+      version: builtin
+      configuration: {}
+      enabled: true
+    - name: url_rewriting
+      version: builtin
+      configuration:
+        query_args_commands:
+        - value_type: plain
+          op: delete
+          arg: user_key
+      enabled: true
+    applicationPlans:
+      git-weather-plan:
+        name: Git Weather Alerts Plan
+        appsRequireApproval: false
+        trialPeriod: 0
+        setupFee: 0.0
+        custom: false
+        state: hidden
+        costMonth: 0.0
+        pricingRules: []
+        limits: []
+    backendUsages:
+      git-weather-alerts-backend:
+        path: "/"
+    deployment:
+      apicastHosted:
+        authentication:
+          userkey:
+            authUserKey: user_key
+            credentials: query
+            security:
+              hostHeader: ''
+              secretToken: Shared_secret_sent_from_proxy_to_API_backend_2fed35be984bb56f
+            gatewayResponse:
+              errorStatusAuthFailed: 403
+              errorHeadersAuthFailed: text/plain; charset=us-ascii
+              errorAuthFailed: Authentication failed
+              errorStatusAuthMissing: 403
+              errorHeadersAuthMissing: text/plain; charset=us-ascii
+              errorAuthMissing: Authentication parameters missing
+              errorStatusNoMatch: 404
+              errorHeadersNoMatch: text/plain; charset=us-ascii
+              errorNoMatch: No Mapping Rule matched
+              errorStatusLimitsExceeded: 429
+              errorHeadersLimitsExceeded: text/plain; charset=us-ascii
+              errorLimitsExceeded: Usage limit exceeded
+- apiVersion: capabilities.3scale.net/v1beta1
+  kind: Backend
+  metadata:
+    annotations:
+      3scale_toolbox_created_at: '2022-01-17T22:06:16Z'
+      3scale_toolbox_version: 0.19.3
+    name: git-weather-alerts-backend
+  spec:
+    name: Git-controlled Weather Alerts API Backend
+    systemName: git-weather-alerts-backend
+    privateBaseURL: https://api.weather.gov:443
+    description: Backend of Git-controlled Weather Alerts API
+    mappingRules: []
+    metrics:
+      hits:
+        friendlyName: Hits
+        unit: hit
+        description: Number of API hits
+    methods: {}
