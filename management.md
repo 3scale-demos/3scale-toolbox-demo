@@ -40,14 +40,14 @@ When importing a product the needed file is in your local directory and needs to
 
 ### 1. Import from the yaml file
 ~~~
-$ toolbox 3scale product import -f git-weather.yaml $DEST
+$ toolbox 3scale product import -f git/git-weather.yaml $DEST
 ~~~
 
 ### 2. Create ActiveDocs
 Importing the product will not create the ActiveDocs for the product. However, the same process can be used to create the ActiveDocs as the raw creation of a product using the `import openapi` function with the same system-name.
 
 ~~~
-$ toolbox 3scale import openapi -t git-weather-alerts --default-credentials-userkey=dummykey -d $DEST git-alerts-spec.json
+$ toolbox 3scale import openapi -t git-weather-alerts --default-credentials-userkey=dummykey -d $DEST git/git-alerts-spec.json
 Updated service id: 4, name: Git-controlled Weather Alerts API
 Service proxy updated
 destroying all mapping rules
