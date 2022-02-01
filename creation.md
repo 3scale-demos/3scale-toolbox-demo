@@ -2,11 +2,11 @@
 
 ## 1. Import complete Product
 
-The import command will create a new complete service based on the OpenAPI Spec json file that is stored under version control: [alerts-spec.json](alerts-spec.json). Documentation for constructing a service spec file can be found in the [OpenAPI-Specification/3.0.2](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md) GitHub.
+The import command will create a new complete service based on the OpenAPI Spec json file that is stored under version control: [api/alerts-spec.json](api/alerts-spec.json). Documentation for constructing a service spec file can be found in the [OpenAPI-Specification/3.0.2](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md) GitHub.
 
 `3scale import openapi [opts] -d <destination> <spec>`
 ~~~
-$ toolbox 3scale import openapi -t weather-alerts --default-credentials-userkey=dummykey -d $DEST alerts-spec.json
+$ toolbox 3scale import openapi -t weather-alerts --default-credentials-userkey=dummykey -d $DEST api/alerts-spec.json
 ~~~
 
 the `-t` flag specifies the internal system name, so the title field can be used as the 'friendly name' of the service. The output provides the service id and echos the service system name which will be needed to manipulate the service later. Each path will have a cooresponding method created and the name can be specified by `operationId` in the 
