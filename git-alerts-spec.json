@@ -1,0 +1,84 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Git-controlled Weather Alerts API",
+        "description": "Get state-level weather alerts",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.weather.gov",
+            "description": "NOAA weather API server",
+            "variables": {
+                "port": {
+                    "default": "443"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/alerts/active": {
+            "get": {
+                "description": "Returns a list of alerts based on state as an argument.",
+                "operationId": "ActiveAlertsByArugment",
+                "parameters": [
+                    {
+                        "name": "area",
+                        "description": "State abbreviation to retrieve alerts for",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "name": "user_key",
+                        "description": "Authentication key",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/alerts/active/area/{state}": {
+            "get": {
+                "description": "Returns a list of alerts based on state as a url.",
+                "operationId": "ActiveAlertsByURL",
+                "parameters": [
+                    {
+                        "name": "state",
+                        "description": "State abbreviation to retrieve alerts for",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "user_key",
+                        "description": "Authentication key",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    }
+}
