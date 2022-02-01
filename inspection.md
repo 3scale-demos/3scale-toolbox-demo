@@ -16,7 +16,7 @@ ID	FRIENDLY_NAME	SYSTEM_NAME	DESCRIPTION
 By default only the `Hits` metric will be created with a new Product.
 
 ~~~
-$ toolbox 3scale metric list $DEST weather-alerts -k
+$ toolbox 3scale metric list $DEST weather-alerts
 ID	FRIENDLY_NAME	SYSTEM_NAME	UNIT	DESCRIPTION
 22	Hits	hits	hit	Number of API hits
 ~~~
@@ -25,7 +25,7 @@ ID	FRIENDLY_NAME	SYSTEM_NAME	UNIT	DESCRIPTION
 When exporting a product the resulting file is inside the container, which is one reason why we set up the mounted volume in our [alias](README.md#environment-setup) for the toolbox. This allows us to get the output file from the export inside our current working directory.
 
 ~~~
-$ toolbox 3scale product export -f weather.yaml $DEST weather-alerts -k
+$ toolbox 3scale product export -f weather.yaml $DEST weather-alerts
 $ ls weather.yaml 
 weather.yaml
 ~~~

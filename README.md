@@ -48,4 +48,4 @@ $ toolbox ls -al
 
 1. [Creating of an API](creation.md)
 1. [Inspection of APIs](inspection.md)
-1. [Modifying an API](modificiation.md)
+1. [Managing an API](management.md)

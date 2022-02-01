@@ -7,12 +7,6 @@ You can create additional methods from the command line as well.
 ~~~
 $ toolbox 3scale method apply --description="New Method created by CLI" -n StateAlerts $DEST weather-alerts statealerts
 Applied method id: 26
-
-$ toolbox 3scale method list $DEST weather-alerts
-ID	FRIENDLY_NAME	SYSTEM_NAME	DESCRIPTION
-24	ActiveAlertsByArugment	activealertsbyarugment	Returns a list of alerts based on state as an argument.
-25	ActiveAlertsByURL	activealertsbyurl	Returns a list of alerts based on state as a url.
-26	StateAlerts	statealerts	New Method created by CLI
 ~~~
 
 The same command will modify existing methods specified by the method to apply changes to.
@@ -20,12 +14,6 @@ The same command will modify existing methods specified by the method to apply c
 ~~~
 $ toolbox 3scale method apply --description="Modified by CLI" -n StateAlerts $DEST weather-alerts statealerts
 Applied method id: 26
-
-$ toolbox 3scale method list $DEST weather-alerts
-ID	FRIENDLY_NAME	SYSTEM_NAME	DESCRIPTION
-24	ActiveAlertsByArugment	activealertsbyarugment	Returns a list of alerts based on state as an argument.
-25	ActiveAlertsByURL	activealertsbyurl	Returns a list of alerts based on state as a url.
-26	StateAlerts	statealerts	Modified by CLI
 ~~~
 
 The toolbox can also delete methods by system-name as well.
@@ -49,13 +37,43 @@ After exporting a product and storing the yaml in version control or transportin
 
 When importing a product the needed file is in your local directory and needs to be mounted inside the container. Using the `-v` argument with the `podmand run` allows us to do that. It is part of the [alias](README.md#environment-setup) set up for the toolbox. This allows us to get the input file from our current working directory inside the working directory of the container.
 
+### 1. Import from the yaml file
 ~~~
-$ toolbox 3scale product import -f weather-git.yaml $DEST
+$ toolbox 3scale product import -f git-weather.yaml $DEST
 ~~~
 
-This will create the application plan, but it will not create the developer's application, so that step will still need to be done manually by a developer, or it can also be done from the command line as follows:
+### 2. Create ActiveDocs
+Importing the product will not create the ActiveDocs for the product. However, the same process can be used to create the ActiveDocs as the raw creation of a product using the `import openapi` function with the same system-name.
 
-`3scale application-plan apply [opts] <remote> <service> <plan>`
+~~~
+$ toolbox 3scale import openapi -t git-weather-alerts --default-credentials-userkey=dummykey -d $DEST git-alerts-spec.json
+Updated service id: 4, name: Git-controlled Weather Alerts API
+Service proxy updated
+destroying all mapping rules
+Created GET /alerts/active$ endpoint
+Created GET /alerts/active/area/{state}$ endpoint
+Service policies updated
+~~~
+
+### 2. Create developer application
+The application plan gets created with the product import, but it will not create any developer's applications. That step will still need to be done manually by a developer, or it can also be done from the command line as follows:
+
 ~~~
 $ toolbox 3scale application apply --account=john --name="Git Weather Alerts Application" --description="Created from the CLI" --plan=git-weather-plan --service=git-weather-alerts $DEST 1234567890
 ~~~
+
+### 3. Promote to production
+You can either promote the product configuration from the admin console or from the command line.
+~~~
+$ toolbox 3scale proxy-config promote $DEST git-weather-alerts
+~~~
+
+### 4. Test
+You can now test the paths of the new Product that has been created.
+
+- ~~~
+  $ curl 'https://git-weather-alerts-3scale-apicast-production.apps-crc.testing/alerts/active?area=KS&user_key=1234567890'
+  ~~~
+- ~~~
+  $ curl 'https://git-weather-alerts-3scale-apicast-production.apps-crc.testing/alerts/active/area/KS?user_key=1234567890'
+  ~~~

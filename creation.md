@@ -36,7 +36,7 @@ The user `john` is the userid of the default user created in a fresh install. Th
 
 ## 4. Add/Adjust Policies
 
-From the toolbox there is not yet a facility to append or modify policies from the command line. So modifications need to be made within the admin console.
+From the toolbox there is not yet a complete facility to append or modify policies from the command line. So most modifications need to be made within the admin console.
 
 1. Remove the Anonymous Access policy.
 1. Add a URL Rewrite policy to delete the user_key argument before passing the request to the backend.
@@ -55,9 +55,10 @@ $ toolbox 3scale proxy-config promote $DEST weather-alerts
 
 ## 6. Test
 You can now test the paths of the new Product that has been created.
-~~~
-curl https://weather-alerts-3scale-apicast-production.apps-crc.testing/alerts/active?area=KS&user_key=1234567890
 
-<output omitted>
-
-curl 
+- ~~~
+  $ curl 'https://weather-alerts-3scale-apicast-production.apps-crc.testing/alerts/active?area=KS&user_key=1234567890'
+  ~~~
+- ~~~
+  $ curl 'https://weather-alerts-3scale-apicast-production.apps-crc.testing/alerts/active/area/KS?user_key=1234567890'
+  ~~~
