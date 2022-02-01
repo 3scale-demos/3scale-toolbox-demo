@@ -50,3 +50,7 @@ $ toolbox 3scale service show $DEST weather-alerts
 ID	NAME	STATE	SYSTEM_NAME	END_USER_REGISTRATION_REQUIRED	BACKEND_VERSION	DEPLOYMENT_OPTION	SUPPORT_EMAIL	DESCRIPTION	CREATED_AT	UPDATED_AT
 6	Weather Alerts API	incomplete	weather-alerts	(empty)	1	hosted	admin@3scale.apps-crc.testing	Get state-level weather alerts	2022-01-17T17:37:10Z	2022-01-17T21:43:46Z
 ~~~
+
+## Next Steps
+
+1. [Managing an API](management.md)

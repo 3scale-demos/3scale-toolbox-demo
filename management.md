@@ -78,3 +78,7 @@ You can now test the paths of the new Product that has been created.
 - ~~~
   $ curl 'https://git-weather-alerts-3scale-apicast-production.apps-crc.testing/alerts/active/area/KS?user_key=1234567890'
   ~~~
+
+## Next Steps
+
+1. [Return home](README.md)
