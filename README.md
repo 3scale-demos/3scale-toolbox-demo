@@ -1,5 +1,5 @@
 # 3scale Toolbox Demo
-A demonstration of various capabilities of the 3scale toolbox
+A demonstration of various capabilities of the 3scale toolbox. This is not a comprehensive demonstration of everything, but rather a selection of its capabilities.
 
 ## Prerequisites
 
