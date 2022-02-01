@@ -14,6 +14,7 @@ The same command will modify existing methods specified by the method to apply c
 ~~~
 $ toolbox 3scale method apply --description="Modified by CLI" -n StateAlerts $DEST weather-alerts statealerts
 Applied method id: 26
+
 ~~~
 
 The toolbox can also delete methods by system-name as well.
