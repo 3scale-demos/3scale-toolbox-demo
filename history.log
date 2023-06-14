@@ -1,0 +1,27 @@
+podman login registry.redhat.io
+podman pull registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.11
+podman run registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.11 3scale help
+alias toolbox='podman run -u root -v $PWD:/tmp:Z -w=/tmp registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.11'
+ls -l
+toolbox ls -l
+DEST="https://d5d4265c25e5575224db8ab612411e5f773531236b8f6c15a26648e6c8ac6653@3scale-admin.apps-crc.testing"
+toolbox 3scale import openapi -t weather-alerts --default-credentials-userkey=dummykey -d $DEST alerts-spec.json -k
+toolbox 3scale application-plan apply -n "Weather Alerts Plan" --default $DEST weather-alerts weather-plan -k
+toolbox 3scale application apply --account=john --name="Weather Alerts Application" --description="Created from the CLI" --plan=weather-plan --service=weather-alerts $DEST 1234567890 -k
+toolbox 3scale proxy-config deploy $DEST weather-alerts -k
+toolbox 3scale proxy-config promote $DEST weather-alerts -k
+cat git-alerts-spec.json
+cat git-weather.yaml
+toolbox 3scale product import -f git-weather.yaml $DEST -k
+toolbox 3scale import openapi -t git-weather-alerts --default-credentials-userkey=dummykey -d $DEST git-alerts-spec.json -k
+toolbox 3scale application apply --account=john --name="Git Weather Alerts Application" --description="Created from the CLI" --plan=git-weather-plan --service=git-weather-alerts $DEST 1234567890 -k
+toolbox 3scale proxy-config deploy $DEST git-weather-alerts -k
+toolbox 3scale proxy-config promote $DEST git-weather-alerts -k
+curl 'https://git-weather-alerts-3scale-apicast-production.apps-crc.testing/alerts/active?area=UT&user_key=1234567890' -k
+toolbox 3scale method list $DEST weather-alerts -k
+toolbox 3scale method apply --description="New Method created by CLI" -n StateAlerts $DEST weather-alerts statealerts -k
+toolbox 3scale method list $DEST weather-alerts -k
+toolbox 3scale method apply --description="Modified by CLI" -n StateAlerts $DEST weather-alerts statealerts -k
+toolbox 3scale method list $DEST weather-alerts -k
+toolbox 3scale method delete $DEST weather-alerts statealerts -k
+toolbox 3scale method list $DEST weather-alerts -k
