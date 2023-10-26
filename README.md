@@ -16,7 +16,7 @@ Login Succeeded!
 ~~~
 Pull the toolbox container image:
 ~~~
-$ podman pull registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.11
+$ podman pull registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.13
 ~~~
 Verify the installation:
 ~~~
