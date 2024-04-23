@@ -20,7 +20,7 @@ $ podman pull registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.13
 ~~~
 Verify the installation:
 ~~~
-$ podman run registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.11 3scale help
+$ podman run registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.13 3scale help
 ~~~
 
 ### Environment Setup
@@ -33,7 +33,7 @@ $ DEST="https://f77d455b4d97f558a0392fe404119eb7d0e2be2c123a851c822861b55af299c0
 
 For shorthand, create an alias that contains the needed podman options for ease of use during the demo.
 ~~~
-$ alias toolbox='podman run -u root -v $PWD:/tmp:Z -w=/tmp registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.11'
+$ alias toolbox='podman run -u root -v $PWD:/tmp:Z -w=/tmp registry.redhat.io/3scale-amp2/toolbox-rhel8:3scale2.13'
 ~~~
 This will mount the current user director as /tmp inside the container and set the container user's working directory to /tmp. The :Z flag tells podman to relable the volume's content to match the label inside the container, which is required to satisfy SELinux.
 
